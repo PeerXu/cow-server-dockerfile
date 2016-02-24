@@ -1,0 +1,29 @@
+FROM golang:1.5.3
+MAINTAINER Peer Xu <pppeerxu@gmail.com>
+
+ENV DEBIAN_FRONTEND noninteractive
+ENV COW_INSTALLDIR "/usr/bin"
+
+RUN wget -qO- git.io/cow | bash
+
+ENV COW_ENV_HOST "0.0.0.0"
+ENV COW_ENV_PORT 7777
+ENV COW_ENV_ENABLE_AUTH "#"
+ENV COW_ENV_AUTH_USERNAME ""
+ENV COW_ENV_AUTH_PASSWORD ""
+ENV COW_ENV_ENABLE_AUTH_FILE "#"
+ENV COW_ENV_AUTH_FILE ""
+ENV COW_ENV_AUTH_TIMEOUT "12h"
+
+ENV SS_ENV_PASSWORD ""
+ENV SS_ENV_HOST ""
+ENV SS_ENV_PORT 8388
+
+ADD \
+    cow.sh \
+    rc.template \
+    /
+
+EXPOSE $COW_ENV_PORT
+
+CMD ["/cow.sh"]
